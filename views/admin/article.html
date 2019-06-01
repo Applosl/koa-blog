@@ -1,0 +1,67 @@
+{{extend '../layout/common-admin.html'}}
+{{block 'content'}}
+  <!-- main list -->
+  <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+      <form>
+          <div class="form-group">
+            <label for="title">标题</label>
+            <input type="title" class="form-control" id="title" name="title" placeholder="标题">
+          </div>
+          <div class="form-group">
+            <label for="intro">简介</label>
+            <input type="intro" class="form-control" id="intro" name="intro" placeholder="简介">
+          </div>
+
+          <div class="form-group">
+            <label for="category">分类</label>
+            <select id="category" name="category" class="form-control">
+              <option value="1">计算机</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="content">内容</label>
+            <div id="content"></div>
+          </div>
+          <div class="form-group">
+            <label for="status">状态</label>
+            <select id="status" name="status" class="form-control">
+              <option value="1">发布</option>
+              <option value="0">不发布</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="status">发布时间</label>
+            <input type="datetime-local" name="create_at" class="form-control"> 
+          </div>     
+          
+          <button type="submit" onclick="save(event)" class="btn btn-default">保存</button>          
+        </form>
+  </div>
+
+  <script src="https://unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+  <script>
+    var editor = null;
+    var content = '';
+    // 这里面定义wangEditor的创建
+    window.onload = function() {
+      var E = window.wangEditor
+      var editor = new E('#content')
+      editor.customConfig.onchange = function (html) {
+            // 监控变化，同步更新到 textarea
+            console.log(html)
+            content = html;
+      }
+      editor.create()
+    }
+
+    // 保存
+    function save(e) {
+      e.preventDefault(); 
+      var form = e.target.form;
+      var formData = new FormData(form)
+      formData.append('content', content)
+      console.log(formData.get('create_at'))
+    }
+  </script>
+{{/block}}

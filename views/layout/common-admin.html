@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/home.css">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="<%= tabIndex===0?'active':''%>"><a href="/admin/index">首页</a></li>
+            <li role="presentation" class="<%= tabIndex===1?'active':''%>"><a href="/admin/blog">日志</a></li>
+        </ul>
+        <!-- 面包屑 -->
+        <ol class="breadcrumb">
+            <li><a href="/admin/index">首页</a></li>
+        </ol>
+        <!-- 标题END -->
+        <div class="row">
+        {{block 'content'}}{{/block}}
+        </div>
+    </div>
+</body>
+</html>
