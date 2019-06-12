@@ -3,3 +3,7 @@ node_modules
 
 # edit
 typings.json
+
+
+# mac OS
+.DS_Store

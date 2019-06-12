@@ -1,10 +1,14 @@
 const Koa = require('koa');
 const render = require('koa-art-template');
 const path = require('path')
-const app = new Koa();
 const router = require('./routes/router')
 const session = require('koa-session');
+const bodyParser = require('koa-body');
+const app = new Koa();
 
+app.use(bodyParser({
+    multipart: true,  // 允许上传多个文件
+}));
 
 
 app.keys = ['qwe8w-9f8q9-f9v7b-9w8e9-5gh42'];

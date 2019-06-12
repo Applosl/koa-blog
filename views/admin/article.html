@@ -11,24 +11,36 @@
             <label for="intro">简介</label>
             <input type="intro" class="form-control" id="intro" name="intro" placeholder="简介">
           </div>
-
-          <div class="form-group">
-            <label for="category">分类</label>
-            <select id="category" name="category" class="form-control">
-              <option value="1">计算机</option>
-            </select>
+          <div class="row">
+              <div class="col-xs-6">
+                  <div class="form-group">
+                      <label for="category">分类</label>
+                      <select id="category" name="category" class="form-control">
+                        <option value="1">计算机</option>
+                      </select>
+                    </div>
+              </div>
+              <div class="col-xs-6">
+                  <div class="form-group">
+                      <label for="status">状态</label>
+                      <select id="status" name="status" class="form-control">
+                        <option value="1">发布</option>
+                        <option value="0">不发布</option>
+                      </select>
+                    </div>
+              </div>
           </div>
-
           <div class="form-group">
-            <label for="content">内容</label>
-            <div id="content"></div>
+            <label for="input-content">内容</label>
+            <div class="row">
+            <div class="col-xs-6">
+                <textarea class="form-control" id="input-content" oninput="this.editor.update()"
+                rows="20"></textarea>
+            </div>
+            <div class="col-xs-6">
+              <div id="content"></div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="status">状态</label>
-            <select id="status" name="status" class="form-control">
-              <option value="1">发布</option>
-              <option value="0">不发布</option>
-            </select>
           </div>
           <div class="form-group">
             <label for="status">发布时间</label>
@@ -39,6 +51,20 @@
         </form>
   </div>
 
+  <script src="/static/js/markdown-js-0.5.0/markdown.js"></script>
+  <script>
+    function Editor(input, preview) {
+        this.update = function () {
+          preview.innerHTML = markdown.toHTML(input.value);
+        };
+        input.editor = this;
+        this.update();
+      }
+      var $ = function (id) { return document.getElementById(id); };
+      new Editor(document.getElementById("input-content"), document.getElementById("content"));
+  </script>
+
+<!-- 
   <script src="https://unpkg.com/wangeditor/release/wangEditor.min.js"></script>
   <script>
     var editor = null;
@@ -63,5 +89,5 @@
       formData.append('content', content)
       console.log(formData.get('create_at'))
     }
-  </script>
+  </script> -->
 {{/block}}
