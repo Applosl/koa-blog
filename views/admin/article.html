@@ -1,5 +1,6 @@
 {{extend '../layout/common-admin.html'}}
 {{block 'content'}}
+<link href="https://cdn.bootcss.com/eonasdan-bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
   <!-- main list -->
   <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
       <form>
@@ -31,28 +32,37 @@
               </div>
           </div>
           <div class="form-group">
+              <label for="status">发布时间</label>
+              <div class='input-group date' id="create_at">
+                <input type='text' name="create_at" class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
+            </div>     
+          <div class="form-group">
             <label for="input-content">内容</label>
             <div class="row">
-            <div class="col-xs-6">
-                <textarea class="form-control" id="input-content" oninput="this.editor.update()"
-                rows="20"></textarea>
+              <div class="col-xs-6">
+                  <textarea class="form-control" id="input-content" oninput="this.editor.update()"
+                  rows="20"></textarea>
+              </div>
+              <div class="col-xs-6">
+                <div id="content"></div>
+              </div>
             </div>
-            <div class="col-xs-6">
-              <div id="content"></div>
-            </div>
-          </div>
-          </div>
-          <div class="form-group">
-            <label for="status">发布时间</label>
-            <input type="datetime-local" name="create_at" class="form-control"> 
-          </div>     
-          
+          </div>    
           <button type="submit" onclick="save(event)" class="btn btn-default">保存</button>          
         </form>
   </div>
 
   <script src="/static/js/markdown-js-0.5.0/markdown.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap-daterangepicker/3.0.5/moment.min.js"></script>
+  <script src="https://cdn.bootcss.com/eonasdan-bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
   <script>
+    $("#create_at").datetimepicker({
+      format: "YYYY-MM-DD HH:mm:ss",
+    });
     function Editor(input, preview) {
         this.update = function () {
           preview.innerHTML = markdown.toHTML(input.value);
@@ -60,34 +70,10 @@
         input.editor = this;
         this.update();
       }
-      var $ = function (id) { return document.getElementById(id); };
-      new Editor(document.getElementById("input-content"), document.getElementById("content"));
+    var $ = function (id) { return document.getElementById(id); };
+    new Editor(document.getElementById("input-content"), document.getElementById("content"));
+
+    
+      
   </script>
-
-<!-- 
-  <script src="https://unpkg.com/wangeditor/release/wangEditor.min.js"></script>
-  <script>
-    var editor = null;
-    var content = '';
-    // 这里面定义wangEditor的创建
-    window.onload = function() {
-      var E = window.wangEditor
-      var editor = new E('#content')
-      editor.customConfig.onchange = function (html) {
-            // 监控变化，同步更新到 textarea
-            console.log(html)
-            content = html;
-      }
-      editor.create()
-    }
-
-    // 保存
-    function save(e) {
-      e.preventDefault(); 
-      var form = e.target.form;
-      var formData = new FormData(form)
-      formData.append('content', content)
-      console.log(formData.get('create_at'))
-    }
-  </script> -->
 {{/block}}

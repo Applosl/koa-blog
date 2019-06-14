@@ -30,6 +30,9 @@ var admin = {
   // 后台管理首页
   index: (ctx) => {
     // admin.checkSession(ctx)
+    // const User = ctx.orm().sql;
+    // console.log(User)
+    // console.log(User.findById(1))
     return ctx.render('admin/index', {
         title: '后台管理',
         tabIndex: 0
