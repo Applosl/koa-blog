@@ -1,4 +1,4 @@
-
+const moment = require('moment')
 var admin = {
   session_key: "polpol1234", // session 钥匙
   // 检查后台session有效 否则重定向
@@ -28,14 +28,20 @@ var admin = {
   },
 
   // 后台管理首页
-  index: (ctx) => {
+  index: async (ctx) => {
     // admin.checkSession(ctx)
-    // const User = ctx.orm().sql;
-    // console.log(User)
-    // console.log(User.findById(1))
+    let page = 1;
+    let page_size = 10;
+    let article_list =  await ctx.orm().article.findAll({
+      order: [["create_at", "DESC"]],
+      offset: (page-1) * page_size,
+      limit: page_size,
+      // raw: true
+    })
     return ctx.render('admin/index', {
         title: '后台管理',
-        tabIndex: 0
+        tabIndex: 0,
+        article_list: article_list
     })
   },
   // 后台博客页面

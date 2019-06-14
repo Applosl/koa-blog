@@ -12,7 +12,7 @@ const config = {
     maxConnections: 10,
     minConnections: 0,
     maxIdleTime: 30000
-  }
+  },
 };
 
 module.exports = config

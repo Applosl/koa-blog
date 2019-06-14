@@ -1,3 +1,4 @@
+'use strict';
 const Koa = require('koa');
 const render = require('koa-art-template');
 const path = require('path')
