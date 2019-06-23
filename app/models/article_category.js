@@ -31,6 +31,8 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: '0'
     }
   }, {
-    tableName: 'article_category'
+    tableName: 'article_category',
+    freezeTableName: true,
+    timestamps: false
   });
 };

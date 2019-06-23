@@ -35,6 +35,8 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: '0'
     }
   }, {
-    tableName: 'admin'
+    tableName: 'admin',
+    freezeTableName: true,
+    timestamps: false
   });
 };
