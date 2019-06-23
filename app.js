@@ -6,6 +6,7 @@ const router = require('./routes/router')
 const session = require('koa-session');
 const bodyParser = require('koa-body');
 const app = new Koa();
+const jsonApi = require('./middleware/jsonApi')
 
 // 载入配置
 const db_config = require('./config/DB')
@@ -32,10 +33,12 @@ render(app, {
     extname: '.html',  // 后缀名
     debug: process.env.NODE_ENV !== 'production'  //是否开启调试模式
 })
-
-app.use(orm.middleware);
-app.use(router.routes())
 app.use(session(session_config, app));
+app.use(orm.middleware);
+app.use(jsonApi())
+app.use(router.routes())
+
+
 
 
 app.listen(3000, () => {
