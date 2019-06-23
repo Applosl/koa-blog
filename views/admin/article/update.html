@@ -1,0 +1,105 @@
+{{extend '../../layout/common-admin.html'}}
+{{block 'content'}}
+<link href="https://cdn.bootcss.com/eonasdan-bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <!-- main list -->
+  <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+      <form>
+          <div class="form-group">
+            <label for="title">标题</label>
+            <input type="title" class="form-control" id="title" name="title" placeholder="标题" value="{{article.title}}">
+          </div>
+          <div class="form-group">
+            <label for="intro">简介</label>
+            <input type="intro" class="form-control" id="intro" name="intro" placeholder="简介" value="{{article.intro}}">
+          </div>
+          <div class="row">
+              <div class="col-xs-6">
+                  <div class="form-group">
+                      <label for="category">分类</label>
+                      <select id="category" name="category" class="form-control" value="{{article.category_id}}">
+                        {{each article_category}}
+                        <option value="{{$value.id}}" {{article.category_id==$value.id?'selected':''}}>{{$value.name}}</option>
+                        {{/each}}
+                      </select>
+                    </div>
+              </div>
+              <div class="col-xs-6">
+                  <div class="form-group">
+                      <label for="status">状态</label>
+                      <select id="status" name="status" class="form-control" value="{{article.status}}">
+                        <option value="1" {{article.status==1?'selected':''}}>发布</option>
+                        <option value="0" {{article.status==0?'selected':''}}>不发布</option>
+                      </select>
+                    </div>
+              </div>
+          </div>
+          <div class="form-group">
+              <label for="status">发布时间</label>
+              <div class='input-group date' id="create_at">
+                <input type='text' name="create_at" class="form-control"  value="{{article.create_at}}"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
+            </div>     
+          <div class="form-group">
+            <label for="input-content">内容</label>
+            <div class="row">
+              <div class="col-xs-6">
+                  <textarea class="form-control" id="input-content" name="content" oninput="this.editor.update()"
+                  rows="20">{{article.content}}</textarea>
+              </div>
+              <div class="col-xs-6">
+                <div id="content"></div>
+              </div>
+            </div>
+          </div>    
+          <button type="button" onclick="save(event)" class="btn btn-default">保存</button>          
+        </form>
+  </div>
+
+  <script src="/static/js/markdown-js-0.5.0/markdown.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap-daterangepicker/3.0.5/moment.min.js"></script>
+  <script src="https://cdn.bootcss.com/eonasdan-bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+  <script>
+    $("#create_at").datetimepicker({
+      format: "YYYY-MM-DD HH:mm:ss",
+    });
+    function Editor(input, preview) {
+        this.update = function () {
+          preview.innerHTML = markdown.toHTML(input.value);
+        };
+        input.editor = this;
+        this.update();
+      }
+    new Editor(document.getElementById("input-content"), document.getElementById("content"));
+
+    // 保存
+    function save(e) {
+      var form = e.target.form;
+      var formData = new FormData(form)
+      $(e.target).button('loading');
+      $.ajax({
+        type: "POST",
+        url: "/admin/article/{{article.id}}",
+        data: formData,
+        dateType: 'json',
+        contentType: false, // 注意这里应设为false
+        processData: false,
+        success: function(data) {
+          if (data.code === 0) {
+              location.href = '/admin/index'
+          } else {
+            alert(data.message);
+          }
+        },
+        error: function(xhr, textStatus, errorThrown) {
+          alert("登录失败");
+        },
+        complete: function(xhr, textStatus) {
+          $(e.target).button('reset');
+        }
+      });
+    }
+  </script>
+{{/block}}
